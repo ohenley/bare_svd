@@ -1,0 +1,13 @@
+name = "bare_svd"
+description = "Shiny new project"
+version = "0.1.0-dev"
+
+authors = ["Olivier Henley"]
+maintainers = ["Olivier Henley <olivier.henley@gmail.com>"]
+maintainers-logins = ["ohenley"]
+
+[configuration.variables]
+svd = { type = "Enum", values = ["stm32f429x", "stm32f7x"], default = "stm32f7x" }
+
+[[depends-on]]
+bare_types = "0.1.0-dev"
