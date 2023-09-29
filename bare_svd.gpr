@@ -1,24 +1,33 @@
 with "config/bare_svd_config.gpr";
 project Bare_Svd is
 
+   for Create_Missing_Dirs use "True";
+
+   for Target use "arm-eabi";
+
    Src_Dirs := ();
    Lib_Name := "";
-   case Bare_Svd_Config.Svd is
-      when "stm32f429x" =>
-         Src_Dirs := ("src/stm32/stm32f429x");
-         Lib_Name := "_stm32f429x_svd";
-      when "stm32f7x" =>
-         Src_Dirs :=("src/stm32/stm32f7x");
-         Lib_Name := "_stm32f7x_svd";
+   case Bare_Svd_Config.FAMILY is
+      when "stm32" =>
+         for Runtime ("Ada") use "light-tasking-stm32f4";
+         Src_Dirs := Src_Dirs & ("src/stm32/",
+                                 "src/stm32/" &
+                                 Bare_Svd_Config.CORE_TYPE & "/" &
+                                 Bare_Svd_Config.CORE & "/" &
+                                 Bare_Svd_Config.SOC_REMAINDER);
+         Lib_Name := "_stm32" & 
+                     Bare_Svd_Config.CORE_TYPE & 
+                     Bare_Svd_Config.CORE & 
+                     Bare_Svd_Config.SOC_REMAINDER &
+                     "_svd";
    end case;
-
-   for Library_Name use Lib_Name;
-   for Library_Version use Project'Library_Name & ".so." & Bare_Svd_Config.Crate_Version;
 
    for Source_Dirs use ("src/", "config/") & Src_Dirs;
    for Object_Dir use "obj/" & Bare_Svd_Config.Build_Profile;
-   for Create_Missing_Dirs use "True";
+
    for Library_Dir use "lib";
+   for Library_Name use Lib_Name;
+   for Library_Version use Project'Library_Name & ".so." & Bare_Svd_Config.Crate_Version;
 
    type Library_Type_Type is ("relocatable", "static", "static-pic");
    Library_Type : Library_Type_Type :=
