@@ -8,11 +8,8 @@ maintainers-logins = ["ohenley"]
 
 [configuration.variables]
 family = { type = "Enum", values = ["stm32", "nordic"], default = "stm32" }
-
-# stm32
-core_type = { type = "Enum", values = ["F", "G", "H", "L", "W"], default = "F" }
-core = { type = "Enum", values = ["m0", "m1", "m2", "m3", "m4", "m7"], default = "m7" }
 soc_remainder = { type = "Enum", values = ["xx", "x29x"], default = "xx" }
 
 [[depends-on]]
 bare_types = "0.1.0-dev"
+bare_core = "0.1.0-dev"
